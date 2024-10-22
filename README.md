@@ -23,16 +23,8 @@ To start the bot, follow these steps:
    git clone https://github.com/ma4z/VPS-Generator.git
    cd VPS-Generator
    ```
-
-2. **Build the Docker image:**
-
-   Run the following command to build the Docker image from the `Dockerfile`:
-
-   ```bash
-   docker build -t ubuntu-22.04-with-tmate .
-   ```
-
-3. **Install Python dependencies:**
+   
+2. **Install Python dependencies:**
 
    Use pip to install the required Python libraries:
 
@@ -40,7 +32,7 @@ To start the bot, follow these steps:
    pip install docker discord.py
    ```
 
-4. **Run the bot:**
+3. **Run the bot:**
 
    Finally, start the bot by executing:
 
