@@ -70,7 +70,7 @@ async def deploy_server(ctx, target_user, ram, cores):
     image = "ghcr.io/ma4z-spec/hydren-vm:latest"
     try:
         container_id = subprocess.check_output([
-            "docker", "run", "-itd", "--privileged", "--cap-add=ALL",
+            "udocker", "run", "-itd", "--privileged", "--cap-add=ALL",
             "--memory", ram, "--cpus", str(cores), image
         ]).strip().decode('utf-8')
     except subprocess.CalledProcessError as e:
@@ -80,14 +80,14 @@ async def deploy_server(ctx, target_user, ram, cores):
 
     try:
         exec_cmd = await asyncio.create_subprocess_exec(
-            "docker", "exec", container_id, "tmate", "-F",
+            "udocker", "exec", container_id, "tmate", "-F",
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
     except subprocess.CalledProcessError as e:
         await ctx.send(embed=discord.Embed(
             description=f"Error executing tmate in Docker container: {e}", color=0xff0000))
-        subprocess.run(["docker", "kill", container_id])
-        subprocess.run(["docker", "rm", container_id])
+        subprocess.run(["udocker", "kill", container_id])
+        subprocess.run(["udocker", "rm", container_id])
         return
 
     ssh_session_line = await capture_ssh_command(exec_cmd)
@@ -109,8 +109,8 @@ async def deploy_server(ctx, target_user, ram, cores):
     else:
         await ctx.send(embed=discord.Embed(
             description="Instance creation failed or timed out. Please try again later.", color=0xff0000))
-        subprocess.run(["docker", "kill", container_id])
-        subprocess.run(["docker", "rm", container_id])
+        subprocess.run(["udocker", "kill", container_id])
+        subprocess.run(["udocker", "rm", container_id])
 
 @bot.command(name="deploy")
 async def deploy(ctx, userid: int, ram: str, cores: int):
@@ -134,15 +134,15 @@ async def ressh(ctx, container_id: str, userid: int):
     try:
         # Check if the container is running
         status = subprocess.check_output(
-            ["docker", "inspect", "--format='{{.State.Running}}'", container_id]
+            ["udocker", "inspect", "--format='{{.State.Running}}'", container_id]
         ).strip().decode('utf-8')
         if status == "'false'":  # If the container is stopped
-            subprocess.run(["docker", "kill", container_id])
-            subprocess.run(["docker", "rm", container_id])
+            subprocess.run(["udocker", "kill", container_id])
+            subprocess.run(["udocker", "rm", container_id])
         # Start the container
-        subprocess.run(["docker", "start", container_id])
+        subprocess.run(["udocker", "start", container_id])
         exec_cmd = await asyncio.create_subprocess_exec(
-            "docker", "exec", container_id, "tmate", "-F",
+            "udocker", "exec", container_id, "tmate", "-F",
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
         ssh_session_line = await capture_ssh_command(exec_cmd)
