@@ -29,7 +29,7 @@ To start the bot, follow these steps:
    Use pip to install the required Python libraries:
 
    ```bash
-   pip install docker discord.py
+   pip install docker && pip install discord.py
    ```
 
 3. **Run the bot:**
