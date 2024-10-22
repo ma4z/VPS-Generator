@@ -1,6 +1,4 @@
-Here's a structured `README.md` for your VPS generator project. You can customize it further as needed.
 
-```markdown
 # VPS Generator
 
 ## Overview
@@ -74,4 +72,3 @@ Contributions are welcome! If you have suggestions for improvements or features,
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
-```
